@@ -1,0 +1,104 @@
+<!DOCTYPE shipment SYSTEM "shipment.dtd">
+<shipment>
+	<ships>
+		<ship sid="S1">
+			<name>Santa Maria</name>
+			<info firstTour="2022-01-01" lastTour="2023-01-31" placeOfConstruction="Australia"/>
+			<tags>
+				<tag>Large</tag>
+				<tag>Container</tag>
+			</tags>
+		</ship>
+		<ship sid="S2">
+			<name>Santa Gola</name>
+			<info firstTour="2020-07-09" lastTour="2021-10-31" placeOfConstruction="Japan" />
+			<tags>
+				<tag>Small</tag>
+				<tag>Passenger</tag>
+			</tags>
+		</ship>
+		<ship sid="S3">
+			<name>Heinzi</name>
+			<info firstTour="2022-09-01" lastTour="2022-12-31" placeOfConstruction="Germany" />
+			<tags>
+				<tag>Medium</tag>
+				<tag>Animal</tag>
+			</tags>
+		</ship>
+		<ship sid="S4">
+			<name>Elbor</name>
+			<info firstTour="2012-04-05"/>
+			<tags>
+				<tag>Sensetive</tag>
+				<tag>Electronic</tag>
+			</tags>
+		</ship>
+	</ships>
+	<products>
+		<product>
+			<name>Apple</name>
+			<type>
+			  <food foodType="Fruits" storageInfo="Cool and dry" />
+			</type>
+			<label>
+				This is a <producer>Samsung</producer> created <destination>South Korea</destination>
+			</label>
+			<catalog>Z#9999#abc</catalog>
+			<tags>
+			  <tag>Fresh</tag>
+			  <tag>Organic</tag>
+			</tags>
+		  </product>
+		  <product>
+			<name>Jacket</name>
+			<type>
+			  <clothing material="Cotton" />
+			</type>
+			<label>
+				Wow this is a pullover from <producer>Supreme</producer> produced in <destination>USA</destination><ref t="W" sid="S2"></ref>
+			</label>
+			<catalog>S#1344#beg</catalog>
+			<tags>
+			  <tag>Winter</tag>
+			  <tag>Men</tag>
+			</tags>
+		  </product>
+		  <product>
+			<name>Steak</name>
+			<type>
+			  <food foodType="Meat" storageInfo="Frozen" />
+			</type>
+			<label>
+				Yo wassup this is <producer>MX Meat</producer> from your local butcher in <destination>Austria</destination><ref t="Fz" sid="S1"></ref>
+			</label>
+			<catalog>M#1224#eeg</catalog>
+			<tags>
+			  <tag>Frozen</tag>
+			  <tag>Beef</tag>
+			</tags>
+		  </product>
+		  <product>
+			<name>Steak</name>
+			<type>
+			  <food foodType="Wine" storageInfo="dry and dark" />
+			</type>
+			<label>This is <producer>Red Wine</producer> produced in <destination>France</destination>with the <ref t="B" sid="S3"></ref></label>
+			<catalog>W#3124#aag</catalog>
+			<tags>
+			  <tag>Beverage</tag>
+			  <tag>Red</tag>
+			</tags>
+		  </product>
+	</products>
+	<ts>
+		<t tagname="Large">L</t>
+		<t tagname="Small">S</t>
+		<t tagname="Passenger">P</t>
+		<t tagname="Fresh">Fs</t>
+		<t tagname="Organic">O</t>
+		<t tagname="Winter">W</t>
+		<t tagname="Men">M</t>
+		<t tagname="Frozen">Fz</t>
+		<t tagname="Beef">B</t>
+	</ts>
+</shipment>

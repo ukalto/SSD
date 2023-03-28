@@ -1,0 +1,167 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:element name="shipment">
+		<xsd:complexType>	
+			<xsd:all>
+				<xsd:element name="ships" type="shipsType"/>
+				<xsd:element name="products" type="productsType"/>
+				<xsd:element name="tags" type="tagsTypeShipProductment"/>
+			</xsd:all>
+		</xsd:complexType>
+		<xsd:key name="shipKey">
+			<xsd:selector xpath="ships/ship"/>
+			<xsd:field xpath="@sid"/>
+		</xsd:key>
+		<xsd:key name="tagKey">
+			<xsd:selector xpath="tags/t"/>
+			<xsd:field xpath="@tagname"/>
+		</xsd:key>
+		<xsd:key name="prodKey">
+			<xsd:selector xpath="products/product"/>
+			<xsd:field xpath="name"/>
+			<xsd:field xpath="catalog"/>
+		</xsd:key>
+		<xsd:keyref name="ship_ref" refer="shipKey">
+			<xsd:selector xpath="products/product/label/ref"/>
+			<xsd:field xpath="@sid"/>
+		</xsd:keyref>
+		<xsd:keyref name="tag_ref" refer="tagKey">
+			<xsd:selector xpath="ships/ship/tag"/>
+			<xsd:field xpath="tag"/>
+		</xsd:keyref>
+	</xsd:element>
+
+	<!-- Ships -->
+	<xsd:complexType name="shipsType">
+		<xsd:sequence>
+			<xsd:element name="ship" type="shipType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<!-- Ship -->
+	<xsd:complexType name="shipType">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string"/>
+			<xsd:element name="info" type="infoType"/>
+			<xsd:element name="tags" type="tagsTypeShipProduct">
+				<xsd:unique name="uniqueTagsShip">
+					<xsd:selector xpath="./tag"/>
+					<xsd:field xpath="."/>
+				</xsd:unique>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="sid" type="xsd:ID" use="required"/>
+	</xsd:complexType>
+
+	<!-- Info -->
+	<xsd:complexType name="infoType">
+		<xsd:attribute name="firstTour" type="xsd:date" use="required"/>
+		<xsd:attribute name="lastTour" type="xsd:date" use="optional"/>
+		<xsd:attribute name="placeOfConstruction" type="xsd:string" use="optional"/>
+	</xsd:complexType>
+
+	<!-- Tags Ship -->
+	<xsd:complexType name="tagsTypeShipProduct">
+		<xsd:sequence>
+			<xsd:element name="tag" type="xsd:IDREF" minOccurs="0" maxOccurs="4"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<!-- Products -->
+	<xsd:complexType name="productsType">
+		<xsd:sequence>
+			<xsd:element name="product" type="productType" minOccurs="3" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<!-- Product -->
+	<xsd:complexType name="productType">
+		<xsd:all>
+			<xsd:element name="name" type="xsd:string"/>
+			<xsd:element name="type" type="typeType"/>
+			<xsd:element name="label" type="labelType"/>
+			<xsd:element name="catalog" type="catalogType"/>
+			<xsd:element name="tags" type="tagsTypeShipProduct">
+				<xsd:unique name="uniqueTagsProduct">
+					<xsd:selector xpath="./tag"/>
+					<xsd:field xpath="."/>
+				</xsd:unique>
+			</xsd:element>
+		</xsd:all>
+	</xsd:complexType>
+	
+	<!-- Type -->
+	<xsd:complexType name="typeType">
+		<xsd:choice>
+			<xsd:element name="food">
+				<xsd:complexType>
+					<xsd:attribute name="foodType" type="foodTypeValues" use="required"/>
+					<xsd:attribute name="storageInfo" type="nonEmptyString" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="clothing">
+				<xsd:complexType>
+					<xsd:attribute name="material" type="xsd:string" use="optional"/>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:choice>
+	</xsd:complexType>
+
+	<!-- Food Values -->
+	<xsd:simpleType name="foodTypeValues">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Fruits" />
+			<xsd:enumeration value="Wine" />
+			<xsd:enumeration value="Meat" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<!-- Label -->
+	<xsd:complexType name="labelType" mixed="true">
+		<xsd:sequence>
+			<xsd:element name="producer" type="xsd:string"/>
+			<xsd:element name="destination" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="ref" type="refType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<!-- Ref -->
+	<xsd:complexType name="refType">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+				<xsd:attribute name="sid" type="xsd:IDREF" use="optional"/>
+				<xsd:attribute name="t" type="xsd:string" use="optional"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<!-- Catalog -->
+	<xsd:simpleType name="catalogType">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[A-Z]#\d{4}#[a-g]{3}" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<!-- Tags Shipment -->
+	<xsd:complexType name="tagsTypeShipProductment">
+		<xsd:sequence>
+			<xsd:element name="t" type="tType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<!-- t -->
+	<xsd:complexType name="tType">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+				<xsd:attribute name="tagname" type="xsd:ID"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<!-- NonEmptyString -->
+	<xsd:simpleType name="nonEmptyString">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

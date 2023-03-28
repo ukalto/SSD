@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT shipment (
+    (ships, ((products, ts) | (ts, products))) | 
+    (products, ((ships, ts) | (ts, ships))) |
+    (ts, ((ships, products) | (products, ships))))>
+<!ELEMENT ships (ship*)>
+<!ELEMENT ship (name, info, tags)>
+<!ATTLIST ship sid ID #REQUIRED>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT info EMPTY>
+<!ATTLIST info
+    firstTour CDATA #REQUIRED
+    lastTour CDATA #IMPLIED
+    placeOfConstruction CDATA #IMPLIED>
+<!ELEMENT tags (tag*)>
+<!ELEMENT tag (#PCDATA)>
+<!ELEMENT products (product, product, product, (product)*)>
+<!ELEMENT product (name,type,label,catalog,tags?)>
+<!ELEMENT type (food | clothing)>
+<!ELEMENT food EMPTY>
+<!ATTLIST food
+    foodType (Fruits|Wine|Meat) #REQUIRED
+    storageInfo CDATA #REQUIRED>
+<!ELEMENT clothing EMPTY>
+<!ATTLIST clothing material CDATA #IMPLIED>
+<!ELEMENT label (#PCDATA | producer | destination | ref)*>
+<!ELEMENT producer (#PCDATA)>
+<!ELEMENT destination (#PCDATA)>
+<!ELEMENT ref (#PCDATA)>
+<!ATTLIST ref 
+	sid IDREF #IMPLIED
+	t CDATA #IMPLIED>
+<!ELEMENT catalog (#PCDATA)>
+<!ELEMENT ts (t*)>
+<!ELEMENT t (#PCDATA)>
+<!ATTLIST t tagname CDATA #REQUIRED>
